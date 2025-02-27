@@ -1,0 +1,20 @@
+# activate venv
+cd where the venv locate
+ source venv/bin/activate
+
+
+#sqlalchemy orm db cmd 
+  export FLASK_APP=run
+  echo $FLASK_APP
+
+  export FLASK_ENV=development
+  echo $FLASK_ENV
+
+  # migrate cmd
+  flask db init
+  flask db migrate -m "Initial migration."
+  flask db upgrade
+
+
+sudo apt-get install code
+ras778yikber
