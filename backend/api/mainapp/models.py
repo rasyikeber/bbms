@@ -10,7 +10,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # Enums for enum values
 class UserRole(enum.Enum):
     guest = "Guest"
-    stafff = "Staff"
+    staff = "Staff"
     admin = "Admin"
 
 

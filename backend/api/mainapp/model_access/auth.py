@@ -19,7 +19,7 @@ def signup_user(data):
 
     # Create a new user
     new_user = User(
-        full_name=full_name,
+        full_name=data.get("full_name"),
         email=email,
         password=generate_password_hash(data.get('password')),
         role=data.get('role'),

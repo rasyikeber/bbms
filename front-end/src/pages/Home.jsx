@@ -1,9 +1,12 @@
 import React from 'react'
+import SignUp from '../components/SignUp'
 
 const Home = () => {
   return (
-    <div className='flex justify-center items-center mt-40 text-3xl font-bold text-cyan-800'>Home</div>
-  )
+    <>
+    <SignUp />
+    </>
+     )
 }
 
 export default Home

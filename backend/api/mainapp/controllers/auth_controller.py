@@ -53,9 +53,6 @@ class SignUp(Resource):
             # Here we handle the error response
             return make_response(jsonify({"message": response}), status_code)
                 
-     
-        
-
 
 
 @auth.route('/login')
