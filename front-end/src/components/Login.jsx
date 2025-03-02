@@ -1,12 +1,16 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
+
 
 const Login = () => {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
@@ -19,46 +23,19 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("form submitted", formData)
     try {
-      const response = await axios.post("api/auth/login", formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      await login(formData.email, formData.password);
 
-      console.log("Login successful:", response.data);
-
-      // Clear the form
-      setFormData({
-        email: "",
-        password: "",
-      });
-
-      // Show success message
-      setSuccessMessage("Login successful! Redirecting to dashboard...");
-      setErrorMessage(""); // Clear any previous error message
-
-      // Redirect to dashboard or another page after successful login
-      // Example: history.push('/dashboard');
+      navigate("/");
     } catch (error) {
-      console.error(
-        "Error during login:",
-        error.response ? error.response.data : error.message
-      );
-      setErrorMessage(
-        error.response?.data?.message || "An error occurred during login."
-      );
-      setSuccessMessage(""); // Clear any previous success message
+      console.error("Login failed:", error);
+      setErrorMessage("Invalid email or password.");
     }
   };
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center"
-      style={{
-        background: "linear-gradient(135deg, #ff4d4d, #cc0000)",
-      }}
-    >
+    <div className="min-h-screen flex items-center justify-center bg-red-500">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
@@ -66,13 +43,6 @@ const Login = () => {
         <h2 className="text-2xl font-bold mb-6 text-center text-red-700">
           Blood Bank Management System - Login
         </h2>
-
-        {/* Success Message */}
-        {successMessage && (
-          <div className="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
-            {successMessage}
-          </div>
-        )}
 
         {/* Error Message */}
         {errorMessage && (
@@ -82,43 +52,35 @@ const Login = () => {
         )}
 
         <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="email"
-          >
+          <label className="block text-gray-700 text-sm font-bold mb-2">
             Email
           </label>
           <input
             type="email"
-            id="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow border rounded w-full py-2 px-3"
             required
           />
         </div>
         <div className="mb-6">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="password"
-          >
+          <label className="block text-gray-700 text-sm font-bold mb-2">
             Password
           </label>
           <input
             type="password"
-            id="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow border rounded w-full py-2 px-3"
             required
           />
         </div>
         <div className="flex items-center justify-between">
           <button
             type="submit"
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
           >
             Login
           </button>
